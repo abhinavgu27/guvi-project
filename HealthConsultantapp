@@ -1,0 +1,96 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class HealthConsultantApp {
+
+    private JFrame frame;
+    private CardLayout cardLayout;
+    private JPanel mainPanel;
+
+    public HealthConsultantApp() {
+        frame = new JFrame("Online Health Consultant");
+        cardLayout = new CardLayout();
+        mainPanel = new JPanel(cardLayout);
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(400, 300);
+
+        // Create panels for login and consultation
+        mainPanel.add(createLoginPanel(), "Login");
+        mainPanel.add(createConsultationPanel(), "Consultation");
+
+        frame.add(mainPanel);
+        frame.setVisible(true);
+    }
+
+    private JPanel createLoginPanel() {
+        JPanel loginPanel = new JPanel(new BorderLayout());
+
+        JLabel label = new JLabel("Online Health Consultant", SwingConstants.CENTER);
+        label.setFont(new Font("Arial", Font.BOLD, 16));
+
+        JPanel formPanel = new JPanel(new GridLayout(3, 2));
+        JLabel userLabel = new JLabel("Username:");
+        JTextField userField = new JTextField(15);
+        JLabel passLabel = new JLabel("Password:");
+        JPasswordField passField = new JPasswordField(15);
+
+        formPanel.add(userLabel);
+        formPanel.add(userField);
+        formPanel.add(passLabel);
+        formPanel.add(passField);
+
+        JButton loginButton = new JButton("Login");
+        loginButton.addActionListener(e -> cardLayout.show(mainPanel, "Consultation"));
+
+        loginPanel.add(label, BorderLayout.NORTH);
+        loginPanel.add(formPanel, BorderLayout.CENTER);
+        loginPanel.add(loginButton, BorderLayout.SOUTH);
+
+        return loginPanel;
+    }
+
+    private JPanel createConsultationPanel() {
+        JPanel consultationPanel = new JPanel(new BorderLayout());
+
+        JLabel titleLabel = new JLabel("Consult with a Health Professional", SwingConstants.CENTER);
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+
+        JPanel formPanel = new JPanel(new GridLayout(4, 2));
+        JLabel nameLabel = new JLabel("Name:");
+        JTextField nameField = new JTextField(15);
+        JLabel ageLabel = new JLabel("Age:");
+        JTextField ageField = new JTextField(15);
+        JLabel symptomsLabel = new JLabel("Symptoms:");
+        JTextField symptomsField = new JTextField(15);
+
+        formPanel.add(nameLabel);
+        formPanel.add(nameField);
+        formPanel.add(ageLabel);
+        formPanel.add(ageField);
+        formPanel.add(symptomsLabel);
+        formPanel.add(symptomsField);
+
+        JButton submitButton = new JButton("Submit");
+        submitButton.addActionListener(e -> showConsultationResult());
+
+        consultationPanel.add(titleLabel, BorderLayout.NORTH);
+        consultationPanel.add(formPanel, BorderLayout.CENTER);
+        consultationPanel.add(submitButton, BorderLayout.SOUTH);
+
+        return consultationPanel;
+    }
+
+    private void showConsultationResult() {
+        JOptionPane.showMessageDialog(frame,
+                "Your consultation request has been submitted.\nOur consultant will reach out to you shortly.",
+                "Consultation Submitted",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(HealthConsultantApp::new);
+    }
+}
